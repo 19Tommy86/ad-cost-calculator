@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Cost Calculator</title>
+</head>
+<body>
+    <h2>Ad Cost Calculator</h2>
+    Ad Format: <select id="adFormat">
+        <option value="500">Fullscreen Mobile and PC</option>
+        <option value="200">Standard Banner Formats</option>
+        <option value="300">Native Format + 1 Entry</option>
+        <option value="350">Native Format + 2 Entries</option>
+        <option value="400">Native Format + 3 Entries</option>
+    </select><br>
+    Views: <input type="number" id="views" value="10000"><br>
+    Discount (%): <input type="number" id="discount" value="0"><br>
+    <button onclick="calculateCost()">Calculate</button>
+    <h3 id="result"></h3>
+
+    <script>
+        function calculateCost() {
+            var pricePerThousand = document.getElementById("adFormat").value;
+            var views = document.getElementById("views").value;
+            var discount = document.getElementById("discount").value;
+
+            var totalCostBeforeDiscount = (views / 1000) * pricePerThousand;
+            var totalCostAfterDiscount = totalCostBeforeDiscount * (1 - (discount / 100));
+
+            document.getElementById("result").innerHTML = "Total Cost (excl. VAT): " + totalCostAfterDiscount.toFixed(2);
+        }
+    </script>
+</body>
+</html>
