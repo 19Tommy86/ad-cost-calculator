@@ -15,18 +15,14 @@
       align-items: center;
       padding-top: 50px;
     }
-
     h1 {
       color: #1E90FF; /* Blå tittel */
     }
-
-    /* Stiler for input og select */
     label {
       font-weight: bold;
       margin-top: 10px;
       color: #2F4F4F; /* Mørk grå tekst */
     }
-
     input[type="number"], select {
       padding: 8px;
       margin-top: 5px;
@@ -36,8 +32,6 @@
       width: 200px;
       font-size: 16px;
     }
-
-    /* Beregn-knappen */
     button {
       background-color: #32CD32; /* Grønn bakgrunn */
       color: #fff;
@@ -48,12 +42,9 @@
       cursor: pointer;
       margin-top: 15px;
     }
-
     button:hover {
       background-color: #28a428; /* Mørkere grønn ved hover */
     }
-
-    /* Resultattekst */
     #result {
       font-size: 18px;
       font-weight: bold;
@@ -82,6 +73,7 @@
   <button onclick="calculateCost()">Beregn Kostnad</button>
 
   <p id="result">Kostnad: <span id="costDisplay"></span> NOK</p>
+  <p id="reachResult">Estimert Daglig Rekkevidde: <span id="reachDisplay"></span> personer</p>
 
   <script>
     function calculateCost() {
@@ -89,17 +81,27 @@
       const adSize = parseFloat(document.getElementById("adSize").value);
       const frequency = parseInt(document.getElementById("frequency").value);
 
+      // Kostnadsberegning
       let baseRate;
       if (adType === "print") {
-        baseRate = 50; // eksempelpris per cm² for print
+        baseRate = 50;
       } else if (adType === "digital") {
-        baseRate = 30; // eksempelpris per cm² for digital
+        baseRate = 30;
       } else if (adType === "kombinert") {
-        baseRate = 70; // eksempelpris per cm² for kombinert
+        baseRate = 70;
       }
-
       const cost = baseRate * adSize * frequency;
       document.getElementById("costDisplay").innerText = cost.toFixed(2);
+
+      // Rekkeviddeberegning for GJE
+      const weeklyReaders = 15400; // ukentlige unike lesere
+      const dailyReachEstimate = weeklyReaders / 7; // ca. daglig unike lesere
+      const dailyViews = 100000; // daglig visninger
+      const adExposure = 0.05; // antatt prosentvis eksponering av visningene for denne annonsen
+
+      // Estimert daglig rekkevidde for annonsen
+      const estimatedDailyReach = dailyReachEstimate + (dailyViews * adExposure);
+      document.getElementById("reachDisplay").innerText = Math.round(estimatedDailyReach).toLocaleString();
     }
   </script>
 
