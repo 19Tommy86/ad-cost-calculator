@@ -1,35 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ad Cost Calculator</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ad Cost Calculator</title>
+  <style>
+    /* Generell stil */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 50px;
+    }
+
+    h1 {
+      color: #1E90FF; /* Blå tittel */
+    }
+
+    /* Stiler for input og select */
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      color: #2F4F4F; /* Mørk grå tekst */
+    }
+
+    input[type="number"], select {
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border: 2px solid #1E90FF;
+      border-radius: 5px;
+      width: 200px;
+      font-size: 16px;
+    }
+
+    /* Beregn-knappen */
+    button {
+      background-color: #32CD32; /* Grønn bakgrunn */
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background-color: #28a428; /* Mørkere grønn ved hover */
+    }
+
+    /* Resultattekst */
+    #result {
+      font-size: 18px;
+      font-weight: bold;
+      color: #2F4F4F;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 <body>
-    <h2>Ad Cost Calculator</h2>
-    Ad Format: <select id="adFormat">
-        <option value="500">Fullscreen Mobile and PC</option>
-        <option value="200">Standard Banner Formats</option>
-        <option value="300">Native Format + 1 Entry</option>
-        <option value="350">Native Format + 2 Entries</option>
-        <option value="400">Native Format + 3 Entries</option>
-    </select><br>
-    Views: <input type="number" id="views" value="10000"><br>
-    Discount (%): <input type="number" id="discount" value="0"><br>
-    <button onclick="calculateCost()">Calculate</button>
-    <h3 id="result"></h3>
 
-    <script>
-        function calculateCost() {
-            var pricePerThousand = document.getElementById("adFormat").value;
-            var views = document.getElementById("views").value;
-            var discount = document.getElementById("discount").value;
+  <h1>Ad Cost Calculator</h1>
+  
+  <label for="adType">Velg annonsetype:</label>
+  <select id="adType">
+    <option value="print">Print</option>
+    <option value="digital">Digital</option>
+    <option value="kombinert">Kombinert</option>
+  </select>
 
-            var totalCostBeforeDiscount = (views / 1000) * pricePerThousand;
-            var totalCostAfterDiscount = totalCostBeforeDiscount * (1 - (discount / 100));
+  <label for="adSize">Annonse Størrelse (cm²):</label>
+  <input type="number" id="adSize" placeholder="Skriv inn størrelse i cm²">
 
-            document.getElementById("result").innerHTML = "Total Cost (excl. VAT): " + totalCostAfterDiscount.toFixed(2);
-        }
-    </script>
+  <label for="frequency">Frekvens:</label>
+  <input type="number" id="frequency" placeholder="Antall ganger per måned">
+
+  <button onclick="calculateCost()">Beregn Kostnad</button>
+
+  <p id="result">Kostnad: <span id="costDisplay"></span> NOK</p>
+
+  <script>
+    function calculateCost() {
+      const adType = document.getElementById("adType").value;
+      const adSize = parseFloat(document.getElementById("adSize").value);
+      const frequency = parseInt(document.getElementById("frequency").value);
+
+      let baseRate;
+      if (adType === "print") {
+        baseRate = 50; // eksempelpris per cm² for print
+      } else if (adType === "digital") {
+        baseRate = 30; // eksempelpris per cm² for digital
+      } else if (adType === "kombinert") {
+        baseRate = 70; // eksempelpris per cm² for kombinert
+      }
+
+      const cost = baseRate * adSize * frequency;
+      document.getElementById("costDisplay").innerText = cost.toFixed(2);
+    }
+  </script>
+
 </body>
 </html>
